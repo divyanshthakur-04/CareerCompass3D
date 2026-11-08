@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerCompass | Skill Assessment</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7faf9;
+            color: #183b5b;
+        }
+
+        header {
+            background: white;
+            padding: 20px 8%;
+            border-bottom: 1px solid #e5eae8;
+        }
+
+        header h2 {
+            color: #183b5b;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .intro {
+            margin-bottom: 30px;
+        }
+
+        .intro h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .intro p {
+            color: #687b88;
+            line-height: 1.6;
+        }
+
+        .progress-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 22px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e7eeeb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #progress {
+            height: 100%;
+            width: 0%;
+            background: #568b79;
+            transition: width 0.2s;
+        }
+
+        .question {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #e9eeec;
+        }
+
+        .question h3 {
+            font-size: 17px;
+            margin-bottom: 17px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .option {
+            border: 1px solid #dce5e1;
+            padding: 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #526775;
+            background: white;
+        }
+
+        .option:has(input:checked) {
+            border-color: #568b79;
+            background: #edf5f1;
+            color: #183b5b;
+        }
+
+        .option input {
+            margin-right: 7px;
+            accent-color: #568b79;
+        }
+
+        button {
+            background: #183b5b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #285475;
+        }
+
+        #result {
+            display: none;
+            background: white;
+            border: 1px solid #dce8e2;
+            padding: 28px;
+            border-radius: 12px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        #result h2 {
+            margin-bottom: 12px;
+        }
+
+        #score {
+            font-size: 38px;
+            color: #568b79;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        @media(max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .intro h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>CareerCompass</h2>
+</header>
+
+<main class="container">
+
+    <div class="intro">
+        <h1>Skill Assessment</h1>
+        <p>
+            Evaluate your current knowledge and discover
+            which skills you need to improve.
+        </p>
+        <p style="margin-top:12px;">
+            Selected Career: <strong id="careerName">Not selected</strong>
+        </p>
+    </div>
+
+    <div class="progress-box">
+        <div class="progress-info">
+            <strong>Your Progress</strong>
+            <span id="progressText">0 of 8 answered</span>
+        </div>
+        <div class="progress-bar">
+            <div id="progress"></div>
+        </div>
+    </div>
+
+    <form id="assessmentForm">
+
+        <div id="questions"></div>
+
+        <button type="submit">Submit Assessment</button>
+
+    </form>
+
+    <div id="result">
+        <h2>Assessment Completed!</h2>
+        <p>Your current skill score is:</p>
+        <div id="score">0%</div>
+        <p id="message"></p>
+    </div>
+
+</main>
+
+<script>
+    const career = localStorage.getItem("selectedCareer")
+        || "Software Engineer";
+
+    document.getElementById("careerName").textContent = career;
+
+    const questionSets = {
+        "Java Developer": [
+            "How well do you understand Java basics?",
+            "How comfortable are you with OOP concepts?",
+            "How well do you understand arrays and strings?",
+            "How comfortable are you with collections?",
+            "How well do you understand exception handling?",
+            "How familiar are you with SQL and databases?",
+            "How comfortable are you with debugging code?",
+            "How well can you solve programming problems?"
+        ],
+
+        "Full Stack Developer": [
+            "How well do you understand HTML and CSS?",
+            "How comfortable are you with JavaScript?",
+            "How well do you understand frontend development?",
+            "How familiar are you with Java or another backend language?",
+            "How well do you understand databases?",
+            "How comfortable are you with APIs?",
+            "How familiar are you with Git and GitHub?",
+            "How well can you build a complete web application?"
+        ],
+
+        "Data Analyst": [
+            "How comfortable are you with Excel?",
+            "How well do you understand SQL?",
+            "How familiar are you with Python?",
+            "How comfortable are you with data cleaning?",
+            "How well do you understand statistics?",
+            "How familiar are you with data visualization?",
+            "How comfortable are you with analysing datasets?",
+            "How well can you explain insights from data?"
+        ],
+
+        "AI/ML Engineer": [
+            "How comfortable are you with Python?",
+            "How well do you understand mathematics?",
+            "How familiar are you with statistics?",
+            "How well do you understand data preprocessing?",
+            "How familiar are you with machine learning?",
+            "How comfortable are you with algorithms?",
+            "How familiar are you with model evaluation?",
+            "How well can you work with datasets?"
+        ],
+
+        "Cybersecurity Analyst": [
+            "How well do you understand computer networks?",
+            "How familiar are you with operating systems?",
+            "How comfortable are you with Linux basics?",
+            "How well do you understand cybersecurity concepts?",
+            "How familiar are you with encryption concepts?",
+            "How comfortable are you with basic scripting?",
+            "How well do you understand security risks?",
+            "How familiar are you with security best practices?"
+        ]
+    };
+
+    const questions = questionSets[career] || [
+        "How well do you understand programming basics?",
+        "How comfortable are you with problem solving?",
+        "How well do you understand data structures?",
+        "How familiar are you with databases?",
+        "How comfortable are you with web technologies?",
+        "How well do you understand algorithms?",
+        "How familiar are you with software tools?",
+        "How well can you build a software project?"
+    ];
+
+    const levels = [
+        "Beginner",
+        "Basic",
+        "Intermediate",
+        "Advanced"
+    ];
+
+    const questionContainer = document.getElementById("questions");
+
+    questions.forEach((question, index) => {
+        const div = document.createElement("div");
+        div.className = "question";
+
+        div.innerHTML = `
+            <h3>${index + 1}. ${question}</h3>
+            <div class="options">
+                ${levels.map((level, i) => `
+                    <label class="option">
+                        <input type="radio"
+                            name="q${index}"
+                            value="${i + 1}">
+                        ${level}
+                    </label>
+                `).join("")}
+            </div>
+        `;
+
+        questionContainer.appendChild(div);
+    });
+
+    const form = document.getElementById("assessmentForm");
+
+    function updateProgress() {
+        const answered = questions.filter((_, index) =>
+            document.querySelector(`input[name="q${index}"]:checked`)
+        ).length;
+
+        document.getElementById("progressText").textContent =
+            `${answered} of ${questions.length} answered`;
+
+        document.getElementById("progress").style.width =
+            `${answered / questions.length * 100}%`;
+    }
+
+    form.addEventListener("change", updateProgress);
+
+    form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const answers = questions.map((_, index) =>
+        document.querySelector(`input[name="q${index}"]:checked`)
+    );
+
+    if (answers.some(answer => !answer)) {
+        alert("Please answer all 8 questions.");
+        return;
+    }
+
+    const total = answers.reduce(
+        (sum, answer) => sum + Number(answer.value), 0
+    );
+
+    const percentage = Math.round(
+        total / (questions.length * 4) * 100
+    );
+
+    const details = questions.map((question, index) => ({
+        skill: question,
+        level: levels[Number(answers[index].value) - 1],
+        score: Number(answers[index].value) * 25
+    }));
+
+    localStorage.setItem("assessmentScore", percentage);
+    localStorage.setItem("assessmentCareer", career);
+    localStorage.setItem("assessmentDetails", JSON.stringify(details));
+
+    window.location.href = "results.html";
+});
+</script>
+
+</body>
+</html>

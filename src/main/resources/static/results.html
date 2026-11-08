@@ -1,0 +1,586 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerCompass | Career Analytics</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f8f7;
+    color: #183b5b;
+}
+
+header {
+    background: white;
+    padding: 19px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e6ece9;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #568b79;
+}
+
+.header-label {
+    color: #71818a;
+    font-size: 13px;
+}
+
+.container {
+    max-width: 1150px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.welcome p {
+    color: #71818a;
+    margin-top: 8px;
+}
+
+.tag {
+    background: #e7f1ec;
+    color: #568b79;
+    padding: 10px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    padding: 24px;
+    border: 1px solid #e8eeeb;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(24,59,91,.035);
+}
+
+.card h3 {
+    font-size: 16px;
+}
+
+.muted {
+    color: #89969d;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.score-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #568b79 0%,
+        #568b79 var(--score),
+        #e8efeb var(--score),
+        #e8efeb 100%
+    );
+    display: grid;
+    place-items: center;
+    margin: 22px 0 12px;
+    position: relative;
+}
+
+.circle::before {
+    content: "";
+    position: absolute;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    background: white;
+}
+
+.circle-content {
+    position: relative;
+    z-index: 1;
+}
+
+.circle-content strong {
+    font-size: 30px;
+}
+
+.circle-content small {
+    display: block;
+    color: #89969d;
+    margin-top: 4px;
+}
+
+.metric {
+    font-size: 31px;
+    font-weight: bold;
+    margin-top: 22px;
+    color: #568b79;
+}
+
+.chart-card {
+    grid-column: span 2;
+}
+
+.chart-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.donut {
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: conic-gradient(
+        #568b79 0% 33%,
+        #a6c4b5 33% 66%,
+        #e8efeb 66% 100%
+    );
+    position: relative;
+}
+
+.donut::before {
+    content: "";
+    width: 112px;
+    height: 112px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.donut-center {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+.donut-center strong {
+    font-size: 24px;
+}
+
+.legend {
+    display: grid;
+    gap: 17px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.bar-item {
+    margin-top: 22px;
+}
+
+.bar-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+    margin-bottom: 9px;
+}
+
+.track {
+    height: 10px;
+    background: #edf1ef;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    background: #568b79;
+    border-radius: 20px;
+    transition: width .6s ease;
+}
+
+.skill-row {
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 9px;
+    transition: background .2s;
+}
+
+.skill-row:hover,
+.skill-row.active {
+    background: #f0f6f3;
+}
+
+.skill-detail {
+    margin-top: 18px;
+    background: #f1f6f3;
+    padding: 17px;
+    border-radius: 10px;
+    color: #526775;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 65px;
+}
+
+.recommendation {
+    background: #eaf3ee;
+    border: 1px solid #dbeae1;
+}
+
+.recommendation p {
+    color: #526775;
+    line-height: 1.7;
+    margin-top: 12px;
+}
+
+.button {
+    display: inline-block;
+    padding: 13px 22px;
+    background: #183b5b;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.button:hover {
+    background: #285475;
+}
+
+.empty {
+    color: #71818a;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    color: #89969d;
+    padding: 35px 10px;
+    font-size: 13px;
+}
+
+@media(max-width: 800px) {
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .chart-card {
+        grid-column: span 2;
+    }
+}
+
+@media(max-width: 550px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-card {
+        grid-column: span 1;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Career<span>Compass</span></div>
+    <div class="header-label">CAREER ANALYTICS</div>
+</header>
+
+<main class="container">
+
+    <section class="welcome">
+        <div>
+            <h1>Your Career Dashboard</h1>
+            <p>Understand your strengths and discover what to improve.</p>
+        </div>
+        <div class="tag" id="careerTag">Career Assessment</div>
+    </section>
+
+    <section class="grid">
+
+        <div class="card score-card">
+            <h3>Overall Skill Score</h3>
+            <p class="muted">Your self-assessment result</p>
+
+            <div class="circle" id="scoreCircle">
+                <div class="circle-content">
+                    <strong id="score">0%</strong>
+                    <small>Skill score</small>
+                </div>
+            </div>
+
+            <p class="muted" id="scoreMessage">Assessment completed</p>
+        </div>
+
+        <div class="card">
+            <h3>Career Selected</h3>
+            <p class="muted">Your chosen career path</p>
+            <div class="metric" style="font-size:23px" id="careerName">
+                Software Engineer
+            </div>
+            <p class="muted" style="margin-top:20px">
+                Based on your selected career and assessment responses.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Skills Assessed</h3>
+            <p class="muted">Total evaluated skills</p>
+            <div class="metric" id="skillCount">08</div>
+            <p class="muted">Questions completed</p>
+        </div>
+
+        <div class="card chart-card">
+            <h3>Skill Distribution</h3>
+            <p class="muted">Your skills grouped by self-reported level</p>
+
+            <div class="chart-area">
+                <div class="donut" id="donut">
+                    <div class="donut-center">
+                        <strong id="totalSkills">8</strong>
+                        <p class="muted">Skills</p>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="dot" style="background:#568b79"></span>
+                        <span id="strongLabel">Strong: 0</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="dot" style="background:#a6c4b5"></span>
+                        <span id="developingLabel">Developing: 0</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="dot" style="background:#e8efeb"></span>
+                        <span id="beginnerLabel">Beginner: 0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Career Insight</h3>
+            <p class="muted">Your current assessment level</p>
+            <div class="metric" style="font-size:24px" id="insightTitle">
+                Getting Started
+            </div>
+            <p class="muted" id="insightText" style="line-height:1.6">
+                Keep developing your skills through practice.
+            </p>
+        </div>
+
+        <div class="card chart-card">
+            <h3>Individual Skill Analysis</h3>
+            <p class="muted">Select any skill to see more information</p>
+
+            <div id="skillBars"></div>
+
+            <div class="skill-detail" id="skillDetail">
+                Select a skill above to view its analysis.
+            </div>
+        </div>
+
+        <div class="card recommendation" style="grid-column:1/-1">
+            <h3>Personalized Improvement Suggestions</h3>
+            <p id="recommendation">
+                Complete your assessment to see suggestions.
+            </p>
+            <button class="button" onclick="goToRoadmap()">
+                Explore Learning Roadmap →
+            </button>
+        </div>
+
+    </section>
+</main>
+
+<footer>
+    CareerCompass | Discover your skills. Plan your future.
+</footer>
+
+<script>
+const score = Number(localStorage.getItem("assessmentScore") || 0);
+
+const career = localStorage.getItem("assessmentCareer")
+    || "Software Engineer";
+
+const details = JSON.parse(
+    localStorage.getItem("assessmentDetails") || "[]"
+);
+
+document.getElementById("score").textContent = score + "%";
+document.getElementById("scoreCircle").style.setProperty(
+    "--score", score + "%"
+);
+
+document.getElementById("careerName").textContent = career;
+document.getElementById("careerTag").textContent = career;
+document.getElementById("skillCount").textContent =
+    String(details.length).padStart(2, "0");
+
+document.getElementById("totalSkills").textContent = details.length;
+
+let strong = 0;
+let developing = 0;
+let beginner = 0;
+
+details.forEach(item => {
+    if (item.score >= 75) strong++;
+    else if (item.score >= 50) developing++;
+    else beginner++;
+});
+
+const total = details.length || 1;
+
+const strongPercent = strong / total * 100;
+const developingPercent = developing / total * 100;
+const beginnerPercent = beginner / total * 100;
+
+document.getElementById("donut").style.background =
+    `conic-gradient(
+        #568b79 0% ${strongPercent}%,
+        #a6c4b5 ${strongPercent}% ${strongPercent + developingPercent}%,
+        #e8efeb ${strongPercent + developingPercent}% 100%
+    )`;
+
+document.getElementById("strongLabel").textContent =
+    "Strong: " + strong;
+
+document.getElementById("developingLabel").textContent =
+    "Developing: " + developing;
+
+document.getElementById("beginnerLabel").textContent =
+    "Beginner: " + beginner;
+
+let title;
+let message;
+
+if (score < 40) {
+    title = "Getting Started";
+    message = "Focus on building your fundamentals and practising regularly.";
+} else if (score < 75) {
+    title = "Developing Skills";
+    message = "You are building a foundation. Improve your weaker areas.";
+} else {
+    title = "Strong Foundation";
+    message = "Explore advanced topics and build practical projects.";
+}
+
+document.getElementById("insightTitle").textContent = title;
+document.getElementById("insightText").textContent = message;
+document.getElementById("scoreMessage").textContent = title;
+
+const bars = document.getElementById("skillBars");
+
+details.forEach((item, index) => {
+    const row = document.createElement("div");
+    row.className = "skill-row";
+
+    const label = document.createElement("div");
+    label.className = "bar-label";
+
+    const name = document.createElement("strong");
+    name.textContent = item.skill;
+
+    const value = document.createElement("span");
+    value.textContent = item.score + "%";
+
+    label.append(name, value);
+
+    const track = document.createElement("div");
+    track.className = "track";
+
+    const fill = document.createElement("div");
+    fill.className = "fill";
+    fill.style.width = item.score + "%";
+
+    track.appendChild(fill);
+    row.append(label, track);
+
+    row.addEventListener("click", () => {
+        document.querySelectorAll(".skill-row").forEach(el =>
+            el.classList.remove("active")
+        );
+
+        row.classList.add("active");
+
+        document.getElementById("skillDetail").textContent =
+            item.skill + ": Your selected level is " + item.level +
+            ". Your self-assessed score is " + item.score +
+            "%. " + (item.score < 75
+                ? "Consider practising this skill with exercises and small projects."
+                : "Continue strengthening this skill with more challenging projects.");
+    });
+
+    bars.appendChild(row);
+});
+
+const weakest = [...details].sort((a, b) => a.score - b.score);
+
+if (details.length) {
+    const suggestions = weakest.slice(0, 3).map(item =>
+        item.skill + " (" + item.score + "%)"
+    );
+
+    document.getElementById("recommendation").textContent =
+        "Your priority improvement areas are: " +
+        suggestions.join(", ") +
+        ". Focus on these skills through structured learning and practical projects.";
+} else {
+    document.getElementById("recommendation").textContent =
+        "No assessment data found. Please complete your assessment first.";
+}
+
+function goToRoadmap() {
+    window.location.href = "roadmap.html";
+}
+</script>
+
+</body>
+</html>
+

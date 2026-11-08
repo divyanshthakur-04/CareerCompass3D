@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerCompass | Learning Roadmap</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f7f9f8;
+    color: #243746;
+}
+
+nav {
+    background: white;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e8eeeb;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    color: #183b5b;
+}
+
+nav a {
+    text-decoration: none;
+    color: #568b79;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.header {
+    margin-bottom: 28px;
+}
+
+.header h1 {
+    color: #183b5b;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.header p {
+    color: #718078;
+    line-height: 1.6;
+}
+
+.progress-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+    margin-bottom: 30px;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.progress-top h3 {
+    color: #183b5b;
+}
+
+#progressPercent {
+    color: #568b79;
+    font-weight: bold;
+}
+
+.progress-track {
+    height: 11px;
+    background: #e8efeb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#progressFill {
+    height: 100%;
+    width: 0%;
+    background: #568b79;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+#progressText {
+    margin-top: 12px;
+    color: #718078;
+    font-size: 14px;
+}
+
+.week {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+}
+
+.week h2 {
+    color: #183b5b;
+    font-size: 21px;
+    margin-bottom: 7px;
+}
+
+.week-description {
+    color: #718078;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.task {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 15px 0;
+    border-top: 1px solid #edf1ef;
+}
+
+.task input {
+    width: 18px;
+    height: 18px;
+    accent-color: #568b79;
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+.task label {
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+.task-title {
+    font-weight: bold;
+    color: #304657;
+}
+
+.task small {
+    display: block;
+    color: #84928b;
+    margin-top: 4px;
+}
+
+.task input:checked + label .task-title {
+    text-decoration: line-through;
+    color: #8b9a92;
+}
+
+.finish {
+    text-align: center;
+    padding: 30px 15px;
+    background: #eaf2ed;
+    border-radius: 14px;
+    margin-top: 25px;
+}
+
+.finish h2 {
+    color: #183b5b;
+    margin-bottom: 10px;
+}
+
+.finish p {
+    color: #63776d;
+    margin-bottom: 18px;
+}
+
+button {
+    background: #568b79;
+    color: white;
+    border: none;
+    padding: 12px 23px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background: #416e5f;
+}
+
+@media(max-width:600px) {
+    .header h1 {
+        font-size: 26px;
+    }
+
+    nav {
+        padding: 18px 5%;
+    }
+
+    .week, .progress-card {
+        padding: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">CareerCompass</div>
+    <a href="results.html">← Back to Results</a>
+</nav>
+
+<div class="container">
+
+    <div class="header">
+        <h1 id="careerTitle">Your Learning Roadmap</h1>
+        <p>Follow this four-week plan, complete each task and track your learning progress.</p>
+    </div>
+
+    <div class="progress-card">
+        <div class="progress-top">
+            <h3>Your Overall Progress</h3>
+            <span id="progressPercent">0% Completed</span>
+        </div>
+
+        <div class="progress-track">
+            <div id="progressFill"></div>
+        </div>
+
+        <p id="progressText">0 out of 12 tasks completed</p>
+    </div>
+
+    <div id="roadmap"></div>
+
+    <div class="finish">
+        <h2 id="finishTitle">Keep Learning!</h2>
+        <p id="finishMessage">Every completed task brings you closer to your career goal.</p>
+        <button onclick="resetProgress()">Reset My Progress</button>
+    </div>
+
+</div>
+
+<script>
+const career = localStorage.getItem("assessmentCareer") || "Software Engineer";
+
+document.getElementById("careerTitle").textContent =
+    career + " Learning Roadmap";
+
+// Learning plans for different careers
+const plans = {
+
+"Java Developer": [
+    {
+        title: "Week 1: Java Fundamentals",
+        description: "Build a strong foundation in Java programming.",
+        tasks: [
+            ["Java Basics", "Learn variables, data types and operators."],
+            ["Control Statements", "Practice if-else, loops and switch."],
+            ["Arrays and Strings", "Solve basic array and string problems."]
+        ]
+    },
+    {
+        title: "Week 2: Object-Oriented Programming",
+        description: "Understand the main concepts of Java OOP.",
+        tasks: [
+            ["Classes and Objects", "Create classes, objects and constructors."],
+            ["Inheritance and Polymorphism", "Understand code reuse and method overriding."],
+            ["Encapsulation and Abstraction", "Practice access modifiers and interfaces."]
+        ]
+    },
+    {
+        title: "Week 3: Advanced Java Basics",
+        description: "Learn important concepts used in real applications.",
+        tasks: [
+            ["Exception Handling", "Practice try, catch and finally."],
+            ["Collections Framework", "Learn ArrayList, HashMap and HashSet."],
+            ["File Handling", "Read and write files using Java."]
+        ]
+    },
+    {
+        title: "Week 4: Practical Development",
+        description: "Apply your knowledge through a small project.",
+        tasks: [
+            ["Database Basics", "Understand SQL and database connectivity."],
+            ["Mini Project", "Build a Student Management System."],
+            ["Git and Revision", "Upload your project and revise Java concepts."]
+        ]
+    }
+],
+
+"Full Stack Developer": [
+    {
+        title: "Week 1: HTML and CSS",
+        description: "Learn how to create and style web pages.",
+        tasks: [
+            ["HTML Basics", "Learn headings, forms, links and tables."],
+            ["CSS Fundamentals", "Practice colors, spacing and layouts."],
+            ["Responsive Design", "Build a page that works on mobile."]
+        ]
+    },
+    {
+        title: "Week 2: JavaScript",
+        description: "Make your websites interactive.",
+        tasks: [
+            ["JavaScript Basics", "Learn variables, functions and conditions."],
+            ["DOM Manipulation", "Update webpage elements using JavaScript."],
+            ["Events", "Practice buttons, forms and click events."]
+        ]
+    },
+    {
+        title: "Week 3: Backend Development",
+        description: "Understand how websites work behind the scenes.",
+        tasks: [
+            ["Backend Basics", "Understand servers and APIs."],
+            ["Node.js and Express", "Create a simple backend application."],
+            ["Database", "Learn SQL and basic CRUD operations."]
+        ]
+    },
+    {
+        title: "Week 4: Full Stack Project",
+        description: "Connect frontend and backend.",
+        tasks: [
+            ["API Integration", "Connect your frontend to a backend API."],
+            ["Build a Project", "Create a simple task management website."],
+            ["Git and Deployment", "Upload your project and learn deployment basics."]
+        ]
+    }
+],
+
+"Data Analyst": [
+    {
+        title: "Week 1: Excel and Statistics",
+        description: "Understand data and basic analysis.",
+        tasks: [
+            ["Excel Basics", "Practice formulas, sorting and filtering."],
+            ["Statistics", "Learn mean, median and mode."],
+            ["Data Cleaning", "Practice finding and correcting errors."]
+        ]
+    },
+    {
+        title: "Week 2: SQL",
+        description: "Learn how to retrieve information from databases.",
+        tasks: [
+            ["SQL Basics", "Practice SELECT, WHERE and ORDER BY."],
+            ["SQL Functions", "Learn COUNT, SUM, AVG and GROUP BY."],
+            ["Joins", "Practice INNER JOIN and LEFT JOIN."]
+        ]
+    },
+    {
+        title: "Week 3: Python",
+        description: "Use Python for analysing datasets.",
+        tasks: [
+            ["Python Fundamentals", "Learn variables, loops and functions."],
+            ["Pandas", "Read and analyse data using DataFrames."],
+            ["Data Visualization", "Create charts using Matplotlib."]
+        ]
+    },
+    {
+        title: "Week 4: Practical Analysis",
+        description: "Work on a real-world dataset.",
+        tasks: [
+            ["Power BI Basics", "Learn dashboards and visual reports."],
+            ["Mini Project", "Analyse a sales or student performance dataset."],
+            ["Project Presentation", "Explain your findings using charts."]
+        ]
+    }
+],
+
+"AI/ML Engineer": [
+    {
+        title: "Week 1: Python Fundamentals",
+        description: "Build programming skills for AI and ML.",
+        tasks: [
+            ["Python Basics", "Learn variables, loops and functions."],
+            ["Data Structures", "Practice lists, dictionaries and sets."],
+            ["NumPy", "Understand arrays and numerical operations."]
+        ]
+    },
+    {
+        title: "Week 2: Mathematics and Data",
+        description: "Understand the mathematics behind machine learning.",
+        tasks: [
+            ["Statistics", "Learn mean, variance and standard deviation."],
+            ["Linear Algebra", "Understand vectors and matrices."],
+            ["Pandas", "Load, explore and clean datasets."]
+        ]
+    },
+    {
+        title: "Week 3: Machine Learning",
+        description: "Explore basic machine learning algorithms.",
+        tasks: [
+            ["ML Fundamentals", "Understand supervised and unsupervised learning."],
+            ["Regression", "Practice a basic linear regression model."],
+            ["Classification", "Explore a decision tree classifier."]
+        ]
+    },
+    {
+        title: "Week 4: AI Project",
+        description: "Build and understand a beginner ML project.",
+        tasks: [
+            ["Model Training", "Train a model using a sample dataset."],
+            ["Model Evaluation", "Learn accuracy and basic evaluation metrics."],
+            ["Mini Project", "Build a simple prediction application."]
+        ]
+    }
+],
+
+"Cybersecurity Analyst": [
+    {
+        title: "Week 1: Computer and Network Basics",
+        description: "Understand how computers communicate.",
+        tasks: [
+            ["Computer Fundamentals", "Learn operating system basics."],
+            ["Networking", "Understand IP addresses and DNS."],
+            ["Network Protocols", "Learn HTTP, HTTPS and TCP/IP."]
+        ]
+    },
+    {
+        title: "Week 2: Security Fundamentals",
+        description: "Learn the foundations of cybersecurity.",
+        tasks: [
+            ["Security Principles", "Understand confidentiality, integrity and availability."],
+            ["Threat Awareness", "Learn about common security threats."],
+            ["Authentication", "Understand passwords and multi-factor authentication."]
+        ]
+    },
+    {
+        title: "Week 3: System Security",
+        description: "Explore safe system administration practices.",
+        tasks: [
+            ["Linux Basics", "Practice basic Linux commands."],
+            ["System Protection", "Learn updates, permissions and backups."],
+            ["Security Logs", "Understand basic system logs."]
+        ]
+    },
+    {
+        title: "Week 4: Security Project",
+        description: "Apply your knowledge in a safe learning environment.",
+        tasks: [
+            ["Security Awareness", "Create a guide to identify suspicious emails."],
+            ["Risk Assessment", "Prepare a basic risk assessment checklist."],
+            ["Mini Project", "Create a simple cybersecurity awareness presentation."]
+        ]
+    }
+],
+
+"Software Engineer": [
+    {
+        title: "Week 1: Programming Fundamentals",
+        description: "Strengthen your coding foundation.",
+        tasks: [
+            ["Programming Basics", "Revise variables, loops and conditions."],
+            ["Functions", "Practice writing reusable functions."],
+            ["Arrays and Strings", "Solve beginner coding problems."]
+        ]
+    },
+    {
+        title: "Week 2: Data Structures",
+        description: "Understand how data is stored and organised.",
+        tasks: [
+            ["Linked Lists", "Learn insertion, deletion and traversal."],
+            ["Stacks and Queues", "Understand their operations and applications."],
+            ["Trees", "Learn binary trees and basic traversals."]
+        ]
+    },
+    {
+        title: "Week 3: Development Skills",
+        description: "Learn tools used in software development.",
+        tasks: [
+            ["OOP Concepts", "Practice classes, objects and inheritance."],
+            ["DBMS and SQL", "Learn tables, keys and basic SQL queries."],
+            ["Git and GitHub", "Learn version control basics."]
+        ]
+    },
+    {
+        title: "Week 4: Project Building",
+        description: "Use your skills to develop a small application.",
+        tasks: [
+            ["Project Planning", "Choose a simple problem to solve."],
+            ["Build Your Project", "Create a working application."],
+            ["Testing and Portfolio", "Test your project and upload it to GitHub."]
+        ]
+    }
+]
+};
+
+// Select the correct plan
+const selectedPlan = plans[career] || plans["Software Engineer"];
+
+// Unique storage key for each career
+const storageKey = "roadmapProgress_" + career;
+
+let completed = JSON.parse(localStorage.getItem(storageKey) || "[]");
+
+const roadmap = document.getElementById("roadmap");
+let taskNumber = 0;
+
+// Display all weeks and tasks
+selectedPlan.forEach((week, weekIndex) => {
+
+    const weekDiv = document.createElement("div");
+    weekDiv.className = "week";
+
+    const heading = document.createElement("h2");
+    heading.textContent = week.title;
+
+    const description = document.createElement("p");
+    description.className = "week-description";
+    description.textContent = week.description;
+
+    weekDiv.appendChild(heading);
+    weekDiv.appendChild(description);
+
+    week.tasks.forEach((task) => {
+
+        const currentNumber = taskNumber;
+        const taskDiv = document.createElement("div");
+        taskDiv.className = "task";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = "task" + currentNumber;
+        checkbox.checked = completed.includes(currentNumber);
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+
+        const title = document.createElement("span");
+        title.className = "task-title";
+        title.textContent = task[0];
+
+        const detail = document.createElement("small");
+        detail.textContent = task[1];
+
+        label.appendChild(title);
+        label.appendChild(detail);
+
+        checkbox.addEventListener("change", function() {
+
+            if (this.checked) {
+                completed.push(currentNumber);
+            } else {
+                completed = completed.filter(
+                    number => number !== currentNumber
+                );
+            }
+
+            localStorage.setItem(storageKey, JSON.stringify(completed));
+            updateProgress();
+        });
+
+        taskDiv.appendChild(checkbox);
+        taskDiv.appendChild(label);
+        weekDiv.appendChild(taskDiv);
+
+        taskNumber++;
+    });
+
+    roadmap.appendChild(weekDiv);
+});
+
+// Update progress bar and completion message
+function updateProgress() {
+
+    const total = taskNumber;
+    const done = completed.length;
+    const percentage = Math.round((done / total) * 100);
+
+    document.getElementById("progressFill").style.width =
+        percentage + "%";
+
+    document.getElementById("progressPercent").textContent =
+        percentage + "% Completed";
+
+    document.getElementById("progressText").textContent =
+        done + " out of " + total + " tasks completed";
+
+    if (percentage === 100) {
+        document.getElementById("finishTitle").textContent =
+            "Congratulations!";
+
+        document.getElementById("finishMessage").textContent =
+            "You have completed your learning roadmap. Keep building new projects!";
+    } else {
+        document.getElementById("finishTitle").textContent =
+            "Keep Learning!";
+
+        document.getElementById("finishMessage").textContent =
+            "Every completed task brings you closer to your career goal.";
+    }
+}
+
+// Reset saved progress
+function resetProgress() {
+
+    if (confirm("Are you sure you want to reset your roadmap progress?")) {
+
+        completed = [];
+
+        localStorage.removeItem(storageKey);
+
+        document.querySelectorAll(".task input").forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        updateProgress();
+    }
+}
+
+updateProgress();
+</script>
+
+</body>
+</html>

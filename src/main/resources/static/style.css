@@ -1,0 +1,605 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #182b43;
+}
+
+/* Navigation */
+
+.navbar {
+    height: 76px;
+    padding: 0 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #edf0f3;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+    color: #183b5b;
+    text-decoration: none;
+}
+
+.logo span {
+    color: #568b79;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #536477;
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    color: #568b79;
+}
+
+.nav-button {
+    background: #183b5b;
+    color: white;
+    text-decoration: none;
+    padding: 12px 21px;
+    border-radius: 7px;
+    font-size: 13px;
+}
+
+/* Hero */
+
+.hero {
+    min-height: 570px;
+    padding: 80px 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    background: #f7faf9;
+}
+
+.hero-content {
+    max-width: 540px;
+}
+
+.eyebrow {
+    color: #568b79;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+}
+
+.hero h1 {
+    font-size: clamp(39px, 5vw, 58px);
+    line-height: 1.2;
+    margin: 24px 0;
+    letter-spacing: -2px;
+    color: #183b5b;
+}
+
+.hero h1 span {
+    color: #568b79;
+}
+
+.hero-content > p {
+    color: #66778a;
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.primary-button {
+    padding: 14px 23px;
+    background: #183b5b;
+    color: white;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.primary-button:hover,
+.nav-button:hover {
+    background: #315d7d;
+}
+
+.text-button {
+    text-decoration: none;
+    color: #183b5b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.hero-info {
+    display: flex;
+    gap: 45px;
+    margin-top: 48px;
+}
+
+.hero-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.hero-info strong {
+    font-size: 23px;
+    color: #183b5b;
+}
+
+.hero-info span {
+    color: #788696;
+    font-size: 11px;
+}
+
+/* Hero illustration */
+
+.hero-visual {
+    position: relative;
+    width: 420px;
+    height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.main-card {
+    position: relative;
+    z-index: 2;
+    width: 340px;
+    padding: 28px;
+    background: white;
+    border: 1px solid #e5ece9;
+    border-radius: 15px;
+    box-shadow: 0 15px 40px #1c3c5b12;
+}
+
+.visual-heading {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 700;
+    color: #718094;
+}
+
+.status {
+    color: #568b79;
+}
+
+.visual-icon {
+    margin: 28px 0 15px;
+    width: 55px;
+    height: 55px;
+    display: grid;
+    place-items: center;
+    background: #eaf3ef;
+    color: #568b79;
+    border-radius: 12px;
+    font-size: 27px;
+}
+
+.main-card h3 {
+    color: #183b5b;
+    font-size: 20px;
+}
+
+.main-card > p {
+    font-size: 12px;
+    line-height: 1.7;
+    color: #83909c;
+    margin-top: 9px;
+}
+
+.progress-title {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 28px;
+    font-size: 11px;
+    color: #657588;
+}
+
+.progress-title strong {
+    color: #568b79;
+}
+
+.progress-track {
+    height: 7px;
+    background: #e9efec;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    width: 65%;
+    height: 100%;
+    background: #649b84;
+    border-radius: 20px;
+}
+
+.floating-card {
+    position: absolute;
+    z-index: 3;
+    padding: 13px 17px;
+    background: white;
+    border: 1px solid #e5ece9;
+    border-radius: 9px;
+    box-shadow: 0 7px 20px #1c3c5b10;
+    font-size: 11px;
+    color: #536477;
+}
+
+.floating-card span {
+    color: #568b79;
+    margin-right: 5px;
+}
+
+.card-top {
+    top: 20px;
+    right: 0;
+}
+
+.card-bottom {
+    bottom: 15px;
+    left: 0;
+}
+
+.decor {
+    position: absolute;
+    border-radius: 50%;
+    background: #e5f0ea;
+}
+
+.decor-one {
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 20px;
+}
+
+.decor-two {
+    width: 65px;
+    height: 65px;
+    bottom: 0;
+    right: 25px;
+    background: #e9eff5;
+}
+
+/* Career cards */
+
+.careers {
+    padding: 90px 9%;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-heading h2 {
+    color: #183b5b;
+    font-size: 34px;
+    margin: 16px 0;
+}
+
+.section-heading p {
+    color: #7b8897;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.career-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.career-card {
+    padding: 27px;
+    border: 1px solid #e9edf0;
+    border-radius: 12px;
+    background: white;
+    transition: .25s;
+}
+
+.career-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px #183b5b12;
+    border-color: #b8d1c5;
+}
+
+.career-icon {
+    height: 48px;
+    width: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    font-size: 23px;
+    margin-bottom: 20px;
+}
+
+.orange { background: #fff1e5; color: #d87930; }
+.blue { background: #e9f2fa; color: #3975aa; }
+.green { background: #eaf4ee; color: #4e8d6c; }
+.purple { background: #f1edfa; color: #8263b6; }
+.yellow { background: #fbf4df; color: #b18a31; }
+.red { background: #fbeeee; color: #c46a6a; }
+
+.career-card h3 {
+    color: #183b5b;
+    font-size: 17px;
+    margin-bottom: 11px;
+}
+
+.career-card p {
+    color: #7b8897;
+    font-size: 12px;
+    line-height: 1.8;
+    min-height: 65px;
+}
+
+.explore-button {
+    margin-top: 15px;
+    border: none;
+    background: none;
+    color: #568b79;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.explore-button:hover {
+    color: #183b5b;
+}
+
+/* Selected career message */
+
+.selection-message {
+    display: none;
+    margin: 30px auto 0;
+    padding: 18px 22px;
+    max-width: 550px;
+    background: #f1f7f3;
+    border: 1px solid #dcebe1;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    color: #315d48;
+    font-size: 13px;
+}
+
+.selection-message.show {
+    display: flex;
+}
+
+.selection-message button {
+    border: none;
+    background: #183b5b;
+    color: white;
+    padding: 11px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* How it works */
+
+.how-it-works {
+    background: #f7faf9;
+    padding: 90px 9%;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.step {
+    padding: 25px;
+    background: white;
+    border: 1px solid #e9eeeb;
+    border-radius: 10px;
+}
+
+.step-number {
+    font-size: 25px;
+    font-weight: 800;
+    color: #80a996;
+}
+
+.step h3 {
+    font-size: 15px;
+    color: #183b5b;
+    margin: 18px 0 10px;
+}
+
+.step p {
+    color: #7b8897;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* About */
+
+.about {
+    padding: 85px 9%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 45px;
+}
+
+.about > div:first-child {
+    max-width: 500px;
+}
+
+.about h2 {
+    font-size: 34px;
+    line-height: 1.4;
+    color: #183b5b;
+    margin: 18px 0;
+}
+
+.about > div > p {
+    color: #7b8897;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.about-note {
+    background: #edf5f0;
+    padding: 35px;
+    border-radius: 12px;
+    max-width: 340px;
+}
+
+.about-note span {
+    color: #568b79;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.about-note h3 {
+    color: #183b5b;
+    font-size: 21px;
+    line-height: 1.5;
+    margin: 17px 0;
+}
+
+.about-note p {
+    color: #718477;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* Footer */
+
+footer {
+    padding: 35px 9%;
+    text-align: center;
+    background: #f7faf9;
+    border-top: 1px solid #e9eeeb;
+}
+
+footer p {
+    color: #7b8897;
+    margin: 12px 0;
+    font-size: 13px;
+}
+
+footer small {
+    color: #9aa4ad;
+    font-size: 11px;
+}
+
+/* Responsive design */
+
+@media (max-width: 950px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 650px;
+    }
+
+    .hero-content > p {
+        margin: auto;
+    }
+
+    .hero-buttons, .hero-info {
+        justify-content: center;
+    }
+
+    .career-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        padding: 0 5%;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .nav-button {
+        padding: 10px 13px;
+    }
+
+    .hero {
+        padding: 60px 6%;
+    }
+
+    .hero-visual {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .main-card {
+        width: 80%;
+    }
+
+    .career-grid, .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .careers, .how-it-works, .about {
+        padding: 65px 6%;
+    }
+
+    .section-heading h2, .about h2 {
+        font-size: 27px;
+    }
+
+    .hero-info {
+        gap: 20px;
+    }
+
+    .hero-info strong {
+        font-size: 19px;
+    }
+
+    .about {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .about-note {
+        max-width: none;
+    }
+}
